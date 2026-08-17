@@ -1,18 +1,157 @@
-# React + Vite
+# Listenify
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Listenify is a Spotify-inspired music streaming web application built with React and Vite.
 
-Currently, two official plugins are available:
+The project is currently focused on building the frontend experience, including music playback, playlists, search, and library management.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Music playback
+- Play and pause
+- Next and previous tracks
+- Shuffle
+- Repeat
+- Volume control
+- Progress bar and seeking
+- Music search
+- Liked songs
+- Liked songs persistence using localStorage
+- Your Library
+- Playlist creation
+- Add songs to playlists
+- Remove songs from playlists
+- Rename playlists
+- Delete playlists
+- Playlist persistence using localStorage
+- React Router navigation
+- Dark music streaming interface
+- Responsive design in progress
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Tech Stack
 
-Note: This will impact Vite dev & build performances.
+- React
+- Vite
+- JavaScript
+- Tailwind CSS
+- React Router
+- Lucide React
+- HTML5 Audio API
+- LocalStorage
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── components/
+│   ├── CreatePlaylistModal.jsx
+│   ├── Layout.jsx
+│   ├── MusicCard.jsx
+│   ├── MusicPlayer.jsx
+│   ├── Navbar.jsx
+│   └── Sidebar.jsx
+│
+├── context/
+│   └── PlayerContext.jsx
+│
+├── data/
+│   └── musicData.js
+│
+├── pages/
+│   ├── Home.jsx
+│   ├── Search.jsx
+│   ├── Library.jsx
+│   └── Playlist.jsx
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+```
+
+## Getting Started
+
+### Clone the repository
+
+```bash
+git clone <your-repository-url>
+```
+
+### Navigate to the project directory
+
+```bash
+cd listenify
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start the development server
+
+```bash
+npm run dev
+```
+
+Open the local development URL displayed in the terminal.
+
+## Development Status
+
+### Completed
+
+- [x] React and Vite setup
+- [x] Listenify branding
+- [x] Sidebar navigation
+- [x] Home page
+- [x] Search page
+- [x] Library
+- [x] Music player
+- [x] Playback controls
+- [x] Shuffle and repeat
+- [x] Volume control
+- [x] Liked songs
+- [x] Playlist creation
+- [x] Playlist management
+- [x] LocalStorage persistence
+
+### In Progress
+
+- [ ] Responsive and mobile UI
+- [ ] Improved search experience
+- [ ] Recently played system
+- [ ] Queue interface
+- [ ] Advanced music player UI
+- [ ] Artist pages
+- [ ] Album pages
+- [ ] Final UI and UX improvements
+
+### Planned
+
+- [ ] User authentication
+- [ ] Backend API
+- [ ] Database
+- [ ] Cloud persistence
+- [ ] User profiles
+- [ ] Production deployment
+
+## Current Limitations
+
+Listenify currently uses local music files and browser localStorage.
+
+This means:
+
+- Music is available only from bundled local files.
+- Liked songs are stored per browser.
+- Playlists are stored per browser.
+- User data is not synchronized across devices.
+- There is currently no authentication or backend.
+
+These limitations will be addressed during the backend development phase.
+
+## Project Goal
+
+The goal is to develop Listenify from a frontend prototype into a full-stack music streaming application with a clean and scalable architecture.
+
+## License
+
+This project is created for educational and portfolio purposes.
