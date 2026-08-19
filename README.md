@@ -26,6 +26,12 @@ The project is currently focused on building the frontend experience, including 
 - React Router navigation
 - Dark music streaming interface
 - Responsive design in progress
+- Responsive desktop and mobile navigation
+- Mobile hamburger menu
+- Responsive music player
+- Functional music search
+- Search by song title and description
+- Search result playback
 
 ## Tech Stack
 
@@ -113,11 +119,11 @@ Open the local development URL displayed in the terminal.
 - [x] Playlist creation
 - [x] Playlist management
 - [x] LocalStorage persistence
+- [x] Responsive and mobile UI
+- [x] Improved search experience
 
 ### In Progress
 
-- [ ] Responsive and mobile UI
-- [ ] Improved search experience
 - [ ] Recently played system
 - [ ] Queue interface
 - [ ] Advanced music player UI
