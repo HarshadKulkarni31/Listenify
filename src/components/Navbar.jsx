@@ -1,8 +1,14 @@
-import { ChevronLeft, ChevronRight, Search, User } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Search as SearchIcon,
+  User,
+  Menu,
+} from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router";
 
-function Navbar() {
+function Navbar({ onMenuClick }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,13 +25,29 @@ function Navbar() {
   };
 
   return (
-    <header className="h-16 bg-[#121212] flex items-center justify-between px-6 sticky top-0 z-30">
+    <header className="h-16 bg-[#121212] flex items-center justify-between px-4 md:px-6 sticky top-0 z-30">
       {/* Left side */}
 
       <div className="flex items-center gap-3">
+        {/* Hamburger */}
+
+        <button
+          onClick={onMenuClick}
+          className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-gray-300 hover:text-white hover:bg-[#282828] transition"
+          title="Open menu"
+        >
+          <Menu size={24} />
+        </button>
+
+        {/* Listenify logo */}
+
+        <span className="md:hidden text-xl font-bold">Listenify</span>
+
+        {/* Browser navigation */}
+
         <button
           onClick={goBack}
-          className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-gray-300 hover:text-white transition"
+          className="hidden md:flex w-9 h-9 rounded-full bg-black items-center justify-center text-gray-300 hover:text-white transition"
           title="Go back"
         >
           <ChevronLeft size={22} />
@@ -33,7 +55,7 @@ function Navbar() {
 
         <button
           onClick={goForward}
-          className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-gray-300 hover:text-white transition"
+          className="hidden md:flex w-9 h-9 rounded-full bg-black items-center justify-center text-gray-300 hover:text-white transition"
           title="Go forward"
         >
           <ChevronRight size={22} />
@@ -44,11 +66,11 @@ function Navbar() {
 
       <button
         onClick={handleSearch}
-        className={`hidden md:flex items-center gap-3 w-80 bg-[#242424] hover:bg-[#2a2a2a] rounded-full px-4 py-2.5 text-gray-400 hover:text-white transition ${
+        className={`hidden sm:flex items-center gap-3 w-64 md:w-80 bg-[#242424] hover:bg-[#2a2a2a] rounded-full px-4 py-2.5 text-gray-400 hover:text-white transition ${
           location.pathname === "/search" ? "ring-1 ring-white" : ""
         }`}
       >
-        <Search size={20} />
+        <SearchIcon size={20} />
 
         <span className="text-sm">What do you want to play?</span>
       </button>
@@ -56,11 +78,11 @@ function Navbar() {
       {/* Right side */}
 
       <div className="flex items-center gap-4">
-        <button className="hidden sm:block text-sm font-semibold text-gray-300 hover:text-white transition">
+        <button className="hidden lg:block text-sm font-semibold text-gray-300 hover:text-white transition">
           Premium
         </button>
 
-        <button className="hidden sm:block text-sm font-semibold text-gray-300 hover:text-white transition">
+        <button className="hidden lg:block text-sm font-semibold text-gray-300 hover:text-white transition">
           Support
         </button>
 
