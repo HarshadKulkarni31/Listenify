@@ -142,7 +142,7 @@ Open the local development URL displayed in the terminal.
 
 ## Current Limitations
 
-Listenify currently uses local music files and browser localStorage.
+Listenify currently uses local music files and browser localStorage
 
 This means:
 
