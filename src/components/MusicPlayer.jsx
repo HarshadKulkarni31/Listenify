@@ -289,6 +289,16 @@ function MusicPlayer() {
             >
               <SkipForward size={19} />
             </button>
+            {/* Queue */}
+            <button
+              onClick={() => setShowQueue((previous) => !previous)}
+              className={`transition ${
+                showQueue ? "text-[#1ed760]" : "text-gray-300 hover:text-white"
+              }`}
+              title="Queue"
+            >
+              <ListMusic size={19} />
+            </button>
           </div>
 
           {/* Mobile Progress */}
