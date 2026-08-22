@@ -121,10 +121,11 @@ Open the local development URL displayed in the terminal.
 - [x] LocalStorage persistence
 - [x] Responsive and mobile UI
 - [x] Improved search experience
+- [x] Recently played system
+
 
 ### In Progress
 
-- [ ] Recently played system
 - [ ] Queue interface
 - [ ] Advanced music player UI
 - [ ] Artist pages
