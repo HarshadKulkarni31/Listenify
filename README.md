@@ -54,6 +54,7 @@ src/
 │   ├── MusicCard.jsx
 │   ├── MusicPlayer.jsx
 │   ├── Navbar.jsx
+│   ├── Queue.jsx
 │   └── Sidebar.jsx
 │
 ├── context/
@@ -122,11 +123,11 @@ Open the local development URL displayed in the terminal.
 - [x] Responsive and mobile UI
 - [x] Improved search experience
 - [x] Recently played system
+- [x] Queue Interface 
 
 
 ### In Progress
 
-- [ ] Queue interface
 - [ ] Advanced music player UI
 - [ ] Artist pages
 - [ ] Album pages
