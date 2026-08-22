@@ -56,6 +56,24 @@ export function PlayerProvider({ children }) {
   }, [likedSongs]);
 
   // =========================================================
+  // RECENTLY PLAYED
+  // =========================================================
+
+  const [recentlyPlayed, setRecentlyPlayed] = useState(() => {
+    const savedSongs = localStorage.getItem("listenify-recently-played");
+
+    return savedSongs ? JSON.parse(savedSongs) : [];
+  });
+
+  // Save recently played songs to localStorage
+  useEffect(() => {
+    localStorage.setItem(
+      "listenify-recently-played",
+      JSON.stringify(recentlyPlayed),
+    );
+  }, [recentlyPlayed]);
+
+  // =========================================================
   // PLAYLISTS
   // =========================================================
 
@@ -69,6 +87,22 @@ export function PlayerProvider({ children }) {
   useEffect(() => {
     localStorage.setItem("listenify-playlists", JSON.stringify(playlists));
   }, [playlists]);
+
+  // =========================================================
+  // ADD TO RECENTLY PLAYED
+  // =========================================================
+
+  const addToRecentlyPlayed = (song) => {
+    if (!song) return;
+
+    setRecentlyPlayed((previous) => {
+      // Remove the song if it already exists
+      const filtered = previous.filter((item) => item.id !== song.id);
+
+      // Add the newest song at the beginning
+      return [song, ...filtered].slice(0, 10);
+    });
+  };
 
   // =========================================================
   // PLAY SONG
@@ -89,6 +123,8 @@ export function PlayerProvider({ children }) {
     setDuration(0);
 
     setIsPlaying(true);
+
+    addToRecentlyPlayed(song);
   };
 
   // =========================================================
@@ -523,6 +559,12 @@ export function PlayerProvider({ children }) {
         // -------------------------
 
         likedSongs,
+
+        // -------------------------
+        // Recently played
+        // -------------------------
+
+        recentlyPlayed,
 
         // -------------------------
         // Playlists
