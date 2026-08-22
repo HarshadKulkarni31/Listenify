@@ -578,6 +578,7 @@ export function PlayerProvider({ children }) {
 
         playSong,
         togglePlay,
+        playFromQueue,
 
         nextSong,
         previousSong,
