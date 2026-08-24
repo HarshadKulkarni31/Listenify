@@ -228,10 +228,10 @@ function MusicPlayer() {
         <div className="md:hidden w-full">
           {/* Top row */}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {/* Artwork */}
 
-            <div className="w-12 h-12 bg-[#282828] rounded overflow-hidden shrink-0">
+            <div className="w-10 h-10 bg-[#282828] rounded overflow-hidden shrink-0">
               {currentSong && (
                 <img
                   src={currentSong.image}
@@ -258,10 +258,10 @@ function MusicPlayer() {
             <button
               onClick={previousSong}
               disabled={!currentSong}
-              className="text-gray-300 disabled:opacity-40"
+              className="text-gray-300 hover:text-white transition disabled:opacity-40 shrink-0"
               title="Previous"
             >
-              <SkipBack size={19} />
+              <SkipBack size={18} />
             </button>
 
             {/* Play / Pause */}
@@ -269,7 +269,7 @@ function MusicPlayer() {
             <button
               onClick={togglePlay}
               disabled={!currentSong}
-              className="bg-white text-black w-9 h-9 rounded-full flex items-center justify-center disabled:opacity-50"
+              className="bg-white text-black w-9 h-9 rounded-full flex items-center justify-center hover:scale-105 transition disabled:opacity-50 shrink-0"
               title={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? (
@@ -284,20 +284,22 @@ function MusicPlayer() {
             <button
               onClick={nextSong}
               disabled={!currentSong}
-              className="text-gray-300 disabled:opacity-40"
+              className="text-gray-300 hover:text-white transition disabled:opacity-40 shrink-0"
               title="Next"
             >
-              <SkipForward size={19} />
+              <SkipForward size={18} />
             </button>
+
             {/* Queue */}
+
             <button
               onClick={() => setShowQueue((previous) => !previous)}
-              className={`transition ${
+              className={`transition shrink-0 ${
                 showQueue ? "text-[#1ed760]" : "text-gray-300 hover:text-white"
               }`}
               title="Queue"
             >
-              <ListMusic size={19} />
+              <ListMusic size={18} />
             </button>
           </div>
 
@@ -313,7 +315,7 @@ function MusicPlayer() {
               className="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer"
             >
               <div
-                className="h-full bg-white rounded-full"
+                className="h-full bg-white rounded-full transition-all"
                 style={{
                   width: `${progressPercentage}%`,
                 }}
