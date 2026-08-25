@@ -4,6 +4,8 @@ import { usePlayer } from "../context/PlayerContext";
 function Queue({ onClose }) {
   const { queue, currentIndex, playFromQueue } = usePlayer();
 
+  const nextSongs = queue.slice(currentIndex + 1);
+
   return (
     <div className="fixed right-0 top-0 bottom-20 w-full sm:w-96 bg-[#181818] border-l border-[#282828] z-50 shadow-2xl">
       {/* Header */}
@@ -70,35 +72,39 @@ function Queue({ onClose }) {
             <section>
               <h3 className="text-sm font-bold text-gray-400 mb-3">Next</h3>
 
-              <div className="space-y-1">
-                {queue.map((song, index) => {
-                  if (index === currentIndex) {
-                    return null;
-                  }
+              {nextSongs.length === 0 ? (
+                <p className="text-sm text-gray-500">
+                  No more songs in the queue.
+                </p>
+              ) : (
+                <div className="space-y-1">
+                  {nextSongs.map((song, index) => {
+                    const actualIndex = currentIndex + 1 + index;
 
-                  return (
-                    <button
-                      key={`${song.id}-${index}`}
-                      onClick={() => playFromQueue(index)}
-                      className="w-full flex items-center gap-3 p-3 rounded-md text-left hover:bg-[#282828] transition"
-                    >
-                      <img
-                        src={song.image}
-                        alt={song.title}
-                        className="w-12 h-12 rounded object-cover shrink-0"
-                      />
+                    return (
+                      <button
+                        key={`${song.id}-${actualIndex}`}
+                        onClick={() => playFromQueue(actualIndex)}
+                        className="w-full flex items-center gap-3 p-3 rounded-md text-left hover:bg-[#282828] transition"
+                      >
+                        <img
+                          src={song.image}
+                          alt={song.title}
+                          className="w-12 h-12 rounded object-cover shrink-0"
+                        />
 
-                      <div className="min-w-0">
-                        <p className="font-medium truncate">{song.title}</p>
+                        <div className="min-w-0">
+                          <p className="font-medium truncate">{song.title}</p>
 
-                        <p className="text-sm text-gray-400 truncate">
-                          {song.description}
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+                          <p className="text-sm text-gray-400 truncate">
+                            {song.description}
+                          </p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </section>
           </>
         )}

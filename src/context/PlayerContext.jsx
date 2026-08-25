@@ -22,6 +22,9 @@ export function PlayerProvider({ children }) {
   const [queue, setQueue] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
 
+  const [shuffledQueue, setShuffledQueue] = useState([]);
+  const [shuffleIndex, setShuffleIndex] = useState(-1);
+
   // =========================================================
   // SHUFFLE / REPEAT
   // =========================================================
@@ -99,7 +102,7 @@ export function PlayerProvider({ children }) {
       // Remove the song if it already exists
       const filtered = previous.filter((item) => item.id !== song.id);
 
-      // Add the newest song at the beginning
+      // Add newest song at the beginning
       return [song, ...filtered].slice(0, 10);
     });
   };
@@ -125,6 +128,26 @@ export function PlayerProvider({ children }) {
     setIsPlaying(true);
 
     addToRecentlyPlayed(song);
+
+    // Reset shuffle when starting a new playlist
+    if (isShuffle) {
+      const remainingSongs = newQueue.filter((item) => item.id !== song.id);
+
+      // Fisher-Yates shuffle
+      for (let i = remainingSongs.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+
+        [remainingSongs[i], remainingSongs[randomIndex]] = [
+          remainingSongs[randomIndex],
+          remainingSongs[i],
+        ];
+      }
+
+      const newShuffledQueue = [song, ...remainingSongs];
+
+      setShuffledQueue(newShuffledQueue);
+      setShuffleIndex(0);
+    }
   };
 
   // =========================================================
@@ -144,14 +167,29 @@ export function PlayerProvider({ children }) {
   const playFromQueue = (index) => {
     if (!queue[index]) return;
 
+    const selectedSong = queue[index];
+
     setCurrentIndex(index);
 
-    setCurrentSong(queue[index]);
+    setCurrentSong(selectedSong);
 
     setCurrentTime(0);
     setDuration(0);
 
     setIsPlaying(true);
+
+    addToRecentlyPlayed(selectedSong);
+
+    // Keep shuffle index synchronized
+    if (isShuffle && shuffledQueue.length > 0) {
+      const newShuffleIndex = shuffledQueue.findIndex(
+        (song) => song.id === selectedSong.id,
+      );
+
+      if (newShuffleIndex !== -1) {
+        setShuffleIndex(newShuffleIndex);
+      }
+    }
   };
 
   // =========================================================
@@ -161,24 +199,75 @@ export function PlayerProvider({ children }) {
   const nextSong = () => {
     if (queue.length === 0) return;
 
-    // Shuffle
+    // =====================================================
+    // SHUFFLE MODE
+    // =====================================================
+
     if (isShuffle) {
-      if (queue.length === 1) {
+      if (shuffledQueue.length === 0) {
         return;
       }
 
-      let randomIndex;
+      const nextShuffleIndex = shuffleIndex + 1;
 
-      do {
-        randomIndex = Math.floor(Math.random() * queue.length);
-      } while (randomIndex === currentIndex);
+      // End of shuffled queue
+      if (nextShuffleIndex >= shuffledQueue.length) {
+        if (repeatMode === "all") {
+          const firstSong = shuffledQueue[0];
 
-      playFromQueue(randomIndex);
+          const originalIndex = queue.findIndex(
+            (song) => song.id === firstSong.id,
+          );
+
+          setShuffleIndex(0);
+
+          if (originalIndex !== -1) {
+            setCurrentIndex(originalIndex);
+          }
+
+          setCurrentSong(firstSong);
+
+          setCurrentTime(0);
+          setDuration(0);
+
+          setIsPlaying(true);
+
+          addToRecentlyPlayed(firstSong);
+        } else {
+          setIsPlaying(false);
+        }
+
+        return;
+      }
+
+      const nextSongInShuffle = shuffledQueue[nextShuffleIndex];
+
+      const originalIndex = queue.findIndex(
+        (song) => song.id === nextSongInShuffle.id,
+      );
+
+      setShuffleIndex(nextShuffleIndex);
+
+      if (originalIndex !== -1) {
+        setCurrentIndex(originalIndex);
+      }
+
+      setCurrentSong(nextSongInShuffle);
+
+      setCurrentTime(0);
+      setDuration(0);
+
+      setIsPlaying(true);
+
+      addToRecentlyPlayed(nextSongInShuffle);
 
       return;
     }
 
-    // Normal next song
+    // =====================================================
+    // NORMAL PLAYBACK
+    // =====================================================
+
     const nextIndex = currentIndex + 1;
 
     // End of queue
@@ -209,6 +298,77 @@ export function PlayerProvider({ children }) {
       return;
     }
 
+    // =====================================================
+    // SHUFFLE MODE
+    // =====================================================
+
+    if (isShuffle) {
+      if (shuffledQueue.length === 0) {
+        return;
+      }
+
+      const previousShuffleIndex = shuffleIndex - 1;
+
+      // Beginning of shuffled queue
+      if (previousShuffleIndex < 0) {
+        if (repeatMode === "all") {
+          const lastIndex = shuffledQueue.length - 1;
+
+          const previousSongInShuffle = shuffledQueue[lastIndex];
+
+          const originalIndex = queue.findIndex(
+            (song) => song.id === previousSongInShuffle.id,
+          );
+
+          setShuffleIndex(lastIndex);
+
+          if (originalIndex !== -1) {
+            setCurrentIndex(originalIndex);
+          }
+
+          setCurrentSong(previousSongInShuffle);
+
+          setCurrentTime(0);
+          setDuration(0);
+
+          setIsPlaying(true);
+
+          addToRecentlyPlayed(previousSongInShuffle);
+        } else {
+          seek(0);
+        }
+
+        return;
+      }
+
+      const previousSongInShuffle = shuffledQueue[previousShuffleIndex];
+
+      const originalIndex = queue.findIndex(
+        (song) => song.id === previousSongInShuffle.id,
+      );
+
+      setShuffleIndex(previousShuffleIndex);
+
+      if (originalIndex !== -1) {
+        setCurrentIndex(originalIndex);
+      }
+
+      setCurrentSong(previousSongInShuffle);
+
+      setCurrentTime(0);
+      setDuration(0);
+
+      setIsPlaying(true);
+
+      addToRecentlyPlayed(previousSongInShuffle);
+
+      return;
+    }
+
+    // =====================================================
+    // NORMAL PLAYBACK
+    // =====================================================
+
     const previousIndex = currentIndex - 1;
 
     if (previousIndex < 0) {
@@ -229,7 +389,39 @@ export function PlayerProvider({ children }) {
   // =========================================================
 
   const toggleShuffle = () => {
-    setIsShuffle((previous) => !previous);
+    setIsShuffle((previous) => {
+      const newShuffleState = !previous;
+
+      if (newShuffleState) {
+        const remainingSongs = queue.filter(
+          (song) => song.id !== currentSong?.id,
+        );
+
+        // Fisher-Yates shuffle
+        for (let i = remainingSongs.length - 1; i > 0; i--) {
+          const randomIndex = Math.floor(Math.random() * (i + 1));
+
+          [remainingSongs[i], remainingSongs[randomIndex]] = [
+            remainingSongs[randomIndex],
+            remainingSongs[i],
+          ];
+        }
+
+        const newShuffledQueue = currentSong
+          ? [currentSong, ...remainingSongs]
+          : remainingSongs;
+
+        setShuffledQueue(newShuffledQueue);
+
+        setShuffleIndex(0);
+      } else {
+        setShuffledQueue([]);
+
+        setShuffleIndex(-1);
+      }
+
+      return newShuffleState;
+    });
   };
 
   // =========================================================
@@ -506,7 +698,7 @@ export function PlayerProvider({ children }) {
 
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [repeatMode, queue, currentIndex, isShuffle]);
+  }, [repeatMode, queue, currentIndex, isShuffle, shuffledQueue, shuffleIndex]);
 
   // =========================================================
   // PROVIDER

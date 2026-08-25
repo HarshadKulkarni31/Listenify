@@ -7,6 +7,7 @@ import {
   SkipForward,
   Shuffle,
   Repeat,
+  Repeat1,
   Volume2,
   ListMusic,
 } from "lucide-react";
@@ -157,9 +158,19 @@ function MusicPlayer() {
                     ? "text-[#1ed760]"
                     : "text-gray-400 hover:text-white"
                 }`}
-                title="Repeat"
+                title={
+                  repeatMode === "off"
+                    ? "Repeat off"
+                    : repeatMode === "all"
+                      ? "Repeat all"
+                      : "Repeat one"
+                }
               >
-                <Repeat size={17} />
+                {repeatMode === "one" ? (
+                  <Repeat1 size={17} />
+                ) : (
+                  <Repeat size={17} />
+                )}
               </button>
             </div>
 
