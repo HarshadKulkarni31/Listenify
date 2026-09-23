@@ -1,5 +1,5 @@
 import { X, ListMusic } from "lucide-react";
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 
 function Queue({ onClose }) {
   const { queue, currentIndex, playFromQueue } = usePlayer();
