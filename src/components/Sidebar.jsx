@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 
 import { useState } from "react";
 
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 
 import CreatePlaylistModal from "./CreatePlaylistModal";
 
