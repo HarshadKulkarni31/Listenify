@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 
 import { Eye, EyeOff, Music2 } from "lucide-react";
 
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import PixelBackground from "../components/PixelBackground";
 
 function Login() {

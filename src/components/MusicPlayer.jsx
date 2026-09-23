@@ -12,7 +12,7 @@ import {
   ListMusic,
 } from "lucide-react";
 
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 import Queue from "./Queue";
 
 function formatTime(time) {

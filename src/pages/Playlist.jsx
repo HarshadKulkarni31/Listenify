@@ -11,7 +11,7 @@ import {
 
 import { useNavigate, useParams } from "react-router";
 
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 import { songs } from "../data/musicData";
 
 function Playlist() {

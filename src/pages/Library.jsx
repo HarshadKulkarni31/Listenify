@@ -1,7 +1,7 @@
 import { Library as LibraryIcon, Heart } from "lucide-react";
 
 import MusicCard from "../components/MusicCard";
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 
 function Library() {
   const { likedSongs } = usePlayer();
