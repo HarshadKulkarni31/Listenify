@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, Music2 } from "lucide-react";
 
-import { useAuth } from "../context/useAuth";
+import { supabase } from "../lib/supabase";
 import PixelBackground from "../components/PixelBackground";
 
 function Signup() {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
 
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,8 +26,15 @@ function Signup() {
     setError("");
     setMessage("");
 
-    if (!email || !password || !confirmPassword) {
+    const cleanUsername = username.trim();
+
+    if (!cleanUsername || !email || !password || !confirmPassword) {
       setError("Please fill in all fields.");
+      return;
+    }
+
+    if (cleanUsername.length < 3) {
+      setError("Username must be at least 3 characters.");
       return;
     }
 
@@ -43,17 +50,33 @@ function Signup() {
 
     setLoading(true);
 
-    const { data, error } = await signUp(email, password);
+    // Create Supabase Auth account
+    const { data, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username: cleanUsername,
+        },
+      },
+    });
+    if (signUpError) {
+      setError(signUpError.message);
+      setLoading(false);
+      return;
+    }
 
-    if (error) {
-      setError(error.message);
+    const user = data?.user;
+
+    if (!user) {
+      setError("Account creation failed. Please try again.");
       setLoading(false);
       return;
     }
 
     setLoading(false);
 
-    if (data?.session) {
+    if (data.session) {
       navigate("/");
       return;
     }
@@ -102,7 +125,29 @@ function Signup() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Username */}
+
+              <div>
+                <label
+                  htmlFor="username"
+                  className="mb-2 block text-sm font-medium text-white/80"
+                >
+                  Username
+                </label>
+
+                <input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  placeholder="Choose a username"
+                  autoComplete="username"
+                  maxLength={30}
+                  className="login-input w-full"
+                />
+              </div>
+
               {/* Email */}
 
               <div>
@@ -208,7 +253,7 @@ function Signup() {
                 </div>
               )}
 
-              {/* Signup button */}
+              {/* Submit */}
 
               <button
                 type="submit"
