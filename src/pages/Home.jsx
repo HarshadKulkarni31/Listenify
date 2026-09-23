@@ -67,7 +67,7 @@ function Home() {
                 key={song.id}
                 id={song.id}
                 title={song.title}
-                description={song.description}
+                description={song.artist}
                 image={song.cover_url}
                 audio={song.audio_url}
                 playlist={songs}
