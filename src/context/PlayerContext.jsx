@@ -1,6 +1,6 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export const PlayerContext = createContext();
+import { PlayerContext } from "./PlayerContext.js";
 
 export function PlayerProvider({ children }) {
   const audioRef = useRef(null);
@@ -820,7 +820,3 @@ export function PlayerProvider({ children }) {
     </PlayerContext.Provider>
   );
 }
-
-// =========================================================
-// CUSTOM HOOK
-// =========================================================
