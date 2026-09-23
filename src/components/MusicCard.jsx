@@ -1,6 +1,6 @@
 import { Heart, Play } from "lucide-react";
 
-import { usePlayer } from "../context/PlayerContext";
+import { usePlayer } from "../context/usePlayer";
 
 function MusicCard({ id, title, description, image, audio, playlist }) {
   const { playSong, toggleLike, isLiked } = usePlayer();

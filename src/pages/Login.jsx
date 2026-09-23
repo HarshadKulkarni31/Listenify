@@ -1,17 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-import {
-  AudioLines,
-  Disc3,
-  Eye,
-  EyeOff,
-  Headphones,
-  ListMusic,
-  Mic2,
-  Music2,
-  Volume2,
-} from "lucide-react";
+import { Eye, EyeOff, Music2 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
 import PixelBackground from "../components/PixelBackground";
